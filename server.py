@@ -406,6 +406,18 @@ def ensure_property(props: list, name: str, value, extra: dict = None):
         entry.update(extra)
     props.append(entry)
 
+# ── Boolean fields that must be False not empty string ────────────
+BOOL_FALSE_FIELDS = {
+    'isMasking', 'fullWidth', 'fullHeight', 'isfield', 'required',
+    'readOnly', 'hideShadow', 'disableRipple', 'wrap', 'flexColumn',
+    'flexAuto', 'flex', 'ActivityCounter', 'collapse_expand',
+    'isContainerPart', 'isContainer'
+}
+STRING_DEFAULTS = {
+    'maskLength': '3', 'maskPosition': '4', 'maskCharacter': '*',
+    'tooltipMsg': '', 'showTooltip': '',
+}
+
 def sanitize_properties(obj):
     if not obj or not isinstance(obj, (dict, list)):
         return obj
@@ -416,23 +428,37 @@ def sanitize_properties(obj):
     ctrl_type = obj.get('controlType', '') or obj.get('type', '')
     props = obj.get('property', [])
 
+    # ── Fix isContainer / isContainerPart: must be string not bool ──
+    for key in ('isContainer', 'isContainerPart'):
+        if key in obj and obj[key] is True:  obj[key] = 'true'
+        elif key in obj and obj[key] is False: obj[key] = 'false'
+
+    # ── Fix Button controlType: must be lowercase vividbutton ──
+    if ctrl_type == 'Vivid_Button':
+        obj['controlType'] = 'vividbutton'
+        ctrl_type = 'vividbutton'
+
     # Fix existing property values
     for p in props:
         name = p.get('name', '')
         val  = p.get('value')
 
-        # Fix None values
-        if val is None:
-            if name == 'visibility':                    p['value'] = 'true true true'
-            elif name == 'flexColumn':                  p['value'] = True
-            elif name == 'wrap':                        p['value'] = False
-            elif name in ('fullWidth', 'fullHeight'):   p['value'] = False
-            elif name in ('isfield', 'required', 'readOnly'): p['value'] = False
-            else:                                       p['value'] = ''
+        # Fix None or empty string for boolean fields → proper False
+        if name in BOOL_FALSE_FIELDS and (val is None or val == ''):
+            p['value'] = False
 
-        # visibility must always be string "true true true"
-        if name == 'visibility' and not isinstance(val, str):
-            p['value'] = 'true true true'
+        # Fix None for general fields
+        if val is None:
+            if name == 'visibility': p['value'] = 'true true true'
+            elif name == 'flexColumn': p['value'] = True
+            else: p['value'] = ''
+
+        # visibility must ALWAYS be string + have icons field
+        if name == 'visibility':
+            if not isinstance(p.get('value'), str):
+                p['value'] = 'true true true'
+            if 'icons' not in p:
+                p['icons'] = 'icon-monitor icon-tablet icon-mobile'
 
         # textstyle must always be full object
         if name == 'textstyle':
@@ -446,64 +472,99 @@ def sanitize_properties(obj):
                     'Strikeout':  bool(val.get('Strikeout', False)),
                 }
 
-        # All string properties must be strings, not None
+        # Fix string fields with required defaults
+        if name in STRING_DEFAULTS and (val is None or val == ''):
+            p['value'] = STRING_DEFAULTS[name]
+
+        # Fix None for string properties
         if name in ('backgroundColor', 'color', 'borderColor', 'borderRadius',
                     'borderWidth', 'borderStyle', 'fontSize', 'gap', 'className',
                     'minHeight', 'width', 'align', 'justify') and val is None:
             p['value'] = ''
 
-    # Ensure critical properties EXIST (missing = crash in designer)
+    # Ensure critical properties EXIST
     if props is not None:
-        # visibility is required on ALL nodes
-        ensure_property(props, 'visibility', 'true true true')
+        # visibility + icons required on ALL control nodes
+        has_vis = any(p.get('name') == 'visibility' for p in props)
+        if not has_vis and ctrl_type:
+            props.insert(0, {
+                'name': 'visibility',
+                'value': 'true true true',
+                'icons': 'icon-monitor icon-tablet icon-mobile'
+            })
+        else:
+            for p in props:
+                if p.get('name') == 'visibility' and 'icons' not in p:
+                    p['icons'] = 'icon-monitor icon-tablet icon-mobile'
 
-        # Label must have textstyle
         if ctrl_type in ('Vivid_Label',):
             ensure_property(props, 'textstyle',
                 {'Bold': False, 'Italic': False, 'Underlined': False, 'Strikeout': False},
                 {'type': 'textstyle'})
-            ensure_property(props, 'color', '#333333')
-            ensure_property(props, 'fontSize', '14px')
+            ensure_property(props, 'tooltipMsg',    '')
+            ensure_property(props, 'showTooltip',   '')
+            ensure_property(props, 'isMasking',     False, {'type': 'switch'})
+            ensure_property(props, 'maskLength',    '3')
+            ensure_property(props, 'maskPosition',  '4')
+            ensure_property(props, 'maskCharacter', '*')
+            ensure_property(props, 'color',         '#333333')
+            ensure_property(props, 'fontSize',      '14')
             ensure_property(props, 'backgroundColor', 'transparent')
+            ensure_property(props, 'isfield',       False)
+            ensure_property(props, 'fullWidth',     False)
+            ensure_property(props, 'fullHeight',    False)
 
-        # Button must have these
-        if ctrl_type in ('Vivid_Button',):
-            ensure_property(props, 'backgroundColor', '#003874')
-            ensure_property(props, 'color', '#ffffff')
-            ensure_property(props, 'borderRadius', '4px')
-            ensure_property(props, 'borderWidth', '')
-            ensure_property(props, 'borderColor', '')
-            ensure_property(props, 'borderStyle', '')
-            ensure_property(props, 'fullWidth', False)
-            ensure_property(props, 'fontSize', '14px')
+        if ctrl_type in ('Vivid_Button', 'vividbutton'):
+            ensure_property(props, 'backgroundColor',    '#003874')
+            ensure_property(props, 'color',              '#ffffff')
+            ensure_property(props, 'borderRadius',       '4px')
+            ensure_property(props, 'borderWidth',        '')
+            ensure_property(props, 'borderColor',        '')
+            ensure_property(props, 'borderStyle',        '')
+            ensure_property(props, 'fullWidth',          False)
+            ensure_property(props, 'fontSize',           '14px')
+            ensure_property(props, 'hideShadow',         False, {'type': 'switch'})
+            ensure_property(props, 'disableRipple',      False, {'type': 'switch'})
+            ensure_property(props, 'readOnly',           False, {'type': 'switch'})
+            ensure_property(props, 'buttonHoverColor',   '', {'type': 'Color'})
+            ensure_property(props, 'buttonBgHoverColor', '', {'type': 'Color'})
+            ensure_property(props, 'targetMode',         '')
+            ensure_property(props, 'targetUrl',          '')
+            ensure_property(props, 'subpath',            '')
+            ensure_property(props, 'tooltipMsg',         '')
+            ensure_property(props, 'showTooltip',        '')
 
-        # TextBox must have these
         if ctrl_type in ('Vivid_TextBox',):
-            ensure_property(props, 'placeholder', '')
-            ensure_property(props, 'value', '')
-            ensure_property(props, 'fullWidth', True)
-            ensure_property(props, 'isfield', True)
-            ensure_property(props, 'required', False)
-            ensure_property(props, 'readOnly', False)
-            ensure_property(props, 'backgroundColor', '#ffffff')
-            ensure_property(props, 'color', '#333333')
+            ensure_property(props, 'placeholder',   '')
+            ensure_property(props, 'value',         '')
+            ensure_property(props, 'fullWidth',     True)
+            ensure_property(props, 'isfield',       True)
+            ensure_property(props, 'required',      False)
+            ensure_property(props, 'readOnly',      False)
+            ensure_property(props, 'backgroundColor', 'transparent')
+            ensure_property(props, 'color',         '#333333')
 
-        # Container must have flexColumn and wrap
         if ctrl_type in ('1005', 'Container', 'vivid_GridContainer'):
             ensure_property(props, 'flexColumn', True)
-            ensure_property(props, 'wrap', True)
-            ensure_property(props, 'col', 12)
-            ensure_property(props, 'lg', '12')
-            ensure_property(props, 'md', '12')
+            ensure_property(props, 'wrap',       True)
+            ensure_property(props, 'col',        12)
+            ensure_property(props, 'lg',         '12')
+            ensure_property(props, 'md',         '12')
+            ensure_property(props, 'collapse_expand',       '', {'type': 'switch'})
+            ensure_property(props, 'containerCollapseIcon', '', {'type': 'muiIcon'})
+            ensure_property(props, 'containerExpandIcon',   '', {'type': 'muiIcon'})
+            ensure_property(props, 'containerIconHeight',   '')
+            ensure_property(props, 'containerIconWidth',    '')
 
-        # Image must have Source (capital S)
-        if ctrl_type in ('Vivid_Image',):
-            # Fix src/source → Source
+        if ctrl_type in ('Vivid_Image', 'image'):
             for p in props:
                 if p.get('name') in ('src', 'source'):
                     p['name'] = 'Source'
             ensure_property(props, 'Source', '')
-            ensure_property(props, 'width', '100%')
+            ensure_property(props, 'Base64', '')
+            ensure_property(props, 'alt',    '')
+            ensure_property(props, 'icon',   '', {'type': 'muiIcon'})
+            ensure_property(props, 'width',  '100%')
             ensure_property(props, 'height', 'auto')
 
     for v in obj.values():
