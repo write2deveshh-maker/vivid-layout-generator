@@ -17,19 +17,39 @@ control[]→Section(999)→Container(1005)→Widgets(leaf,NO control key on widg
 ## IDs (ALL GLOBALLY UNIQUE)
 Section:c_section_XXXXXX | Container:c_XXXXXXXXXXXXX(13+chars) | Widget:id_XXXXXXXXXXXXXXXXXX(18+chars)
 
+## ⚠ CRITICAL — visibility MUST always include icons field
+Every single visibility property MUST have the icons field:
+{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}
+NEVER write visibility without icons — this crashes the designer!
+
 ## SECTION(999)
-{"id":"c_section_001","name":"Section","type":"Section","controlType":"999","controlId":"999","isContainer":"true","isContainerPart":"true","property":[{"name":"visibility","value":"true true true"},{"name":"backgroundColor","value":""},{"name":"p","value":"1"},{"name":"flexColumn","value":true},{"name":"wrap","value":false},{"name":"gap","value":""},{"name":"align","value":"center"},{"name":"lg","value":"12"},{"name":"md","value":"12"},{"name":"sm","value":"12"}],"control":[]}
+{"id":"c_section_001","name":"Section","type":"Section","controlType":"999","controlId":"999","isContainer":"true","isContainerPart":"true","property":[{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"},{"name":"backgroundColor","value":""},{"name":"p","value":"1"},{"name":"flexColumn","value":true},{"name":"wrap","value":false},{"name":"gap","value":""},{"name":"align","value":"center"},{"name":"lg","value":"12"},{"name":"md","value":"12"},{"name":"sm","value":"12"}],"control":[]}
 
 ## CONTAINER(1005)
-{"id":"c_XXXXXXXXXXXXX","name":"Container","type":"Container","controlType":"1005","controlId":"1005","isContainer":"true","property":[{"name":"visibility","value":"true true true"},{"name":"fullHeight","value":"false"},{"name":"p","value":"1"},{"name":"col","value":12},{"name":"lg","value":"12"},{"name":"md","value":"12"},{"name":"sm","value":""},{"name":"flexColumn","value":true},{"name":"flex","value":""},{"name":"wrap","value":true},{"name":"gap","value":""},{"name":"align","value":"start"},{"name":"justify","value":""},{"name":"backgroundColor","value":"","type":"Color"},{"name":"borderRadius","value":"0px"},{"name":"borderWidth","value":""},{"name":"borderColor","value":""},{"name":"borderStyle","value":""},{"name":"className","value":""},{"name":"minHeight","value":""},{"name":"width","value":""},{"name":"isfield","value":false}],"control":[]}
+{"id":"c_XXXXXXXXXXXXX","name":"Container","type":"Container","controlType":"1005","controlId":"1005","isContainer":"true","property":[{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"},{"name":"fullHeight","value":"false"},{"name":"p","value":"1"},{"name":"col","value":12},{"name":"lg","value":"12"},{"name":"md","value":"12"},{"name":"sm","value":""},{"name":"flexColumn","value":true},{"name":"flex","value":""},{"name":"wrap","value":true},{"name":"gap","value":""},{"name":"align","value":"start"},{"name":"justify","value":""},{"name":"backgroundColor","value":"","type":"Color"},{"name":"borderRadius","value":"0px"},{"name":"borderWidth","value":""},{"name":"borderColor","value":""},{"name":"borderStyle","value":""},{"name":"className","value":""},{"name":"minHeight","value":""},{"name":"width","value":""},{"name":"isfield","value":false}],"control":[]}
 
 ## WIDGETS
-Label:{"id":"id_X","name":"Label","type":"Vivid_Label","controlType":"Vivid_Label","controlId":"Vivid_Label","property":[{"name":"Text","value":"TEXT"},{"name":"color","value":"#333"},{"name":"fontSize","value":"14px"},{"name":"textstyle","value":{"Bold":false,"Italic":false,"Underlined":false,"Strikeout":false},"type":"textstyle"},{"name":"backgroundColor","value":"transparent","type":"Color"},{"name":"p","value":"1"},{"name":"visibility","value":"true true true"}]}
-Button:{"id":"id_X","name":"Button","type":"Vivid_Button","controlType":"Vivid_Button","controlId":"Vivid_Button","property":[{"name":"Text","value":"Btn"},{"name":"backgroundColor","value":"#003874","type":"Color"},{"name":"color","value":"#FFF"},{"name":"borderRadius","value":"4px"},{"name":"borderWidth","value":""},{"name":"borderColor","value":""},{"name":"borderStyle","value":""},{"name":"fontSize","value":"14px"},{"name":"fullWidth","value":false},{"name":"visibility","value":"true true true"},{"name":"p","value":"1"}]}
-TextBox:{"id":"id_X","name":"TextBox","type":"Vivid_TextBox","controlType":"Vivid_TextBox","controlId":"Vivid_TextBox","property":[{"name":"placeholder","value":"Enter"},{"name":"value","value":""},{"name":"fullWidth","value":true},{"name":"isfield","value":true},{"name":"required","value":false},{"name":"readOnly","value":false},{"name":"backgroundColor","value":"#FFF","type":"Color"},{"name":"color","value":"#333"},{"name":"borderRadius","value":"4px"},{"name":"borderWidth","value":"1px"},{"name":"borderColor","value":"#e0e0e0"},{"name":"borderStyle","value":"solid"},{"name":"visibility","value":"true true true"}]}
-Divider:{"id":"id_X","name":"Divider","type":"Vivid_Divider","controlType":"Vivid_Divider","controlId":"Vivid_Divider","property":[{"name":"visibility","value":"true true true"}]}
-Icon:{"id":"id_X","name":"Icon","type":"Vivid_Icon","controlType":"Vivid_Icon","controlId":"Vivid_Icon","property":[{"name":"icon","value":"HomeRounded"},{"name":"color","value":"#003874"},{"name":"fontSize","value":"24px"},{"name":"visibility","value":"true true true"}]}
-Image:{"id":"id_X","name":"Image","type":"Vivid_Image","controlType":"Vivid_Image","controlId":"Vivid_Image","property":[{"name":"Source","value":""},{"name":"width","value":"100%"},{"name":"height","value":"auto"},{"name":"visibility","value":"true true true"}]}
+Label:{"id":"id_X","name":"Label","type":"Vivid_Label","controlType":"Vivid_Label","controlId":"Vivid_Label","property":[{"name":"Text","value":"TEXT"},{"name":"color","value":"#333"},{"name":"fontSize","value":"14px"},{"name":"textstyle","value":{"Bold":false,"Italic":false,"Underlined":false,"Strikeout":false},"type":"textstyle"},{"name":"backgroundColor","value":"transparent","type":"Color"},{"name":"p","value":"1"},{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"},{"name":"isMasking","value":false,"type":"switch"},{"name":"maskLength","value":"3"},{"name":"maskPosition","value":"4"},{"name":"maskCharacter","value":"*"},{"name":"tooltipMsg","value":""},{"name":"showTooltip","value":""},{"name":"isfield","value":false},{"name":"fullWidth","value":false},{"name":"fullHeight","value":false}]}
+
+Button:{"id":"id_X","name":"Button","type":"Vivid_Button","controlType":"vividbutton","controlId":"Vivid_Button","property":[{"name":"Text","value":"Btn"},{"name":"backgroundColor","value":"#003874","type":"Color"},{"name":"color","value":"#FFF"},{"name":"borderRadius","value":"4px"},{"name":"borderWidth","value":""},{"name":"borderColor","value":""},{"name":"borderStyle","value":""},{"name":"fontSize","value":"14px"},{"name":"fullWidth","value":false},{"name":"hideShadow","value":false,"type":"switch"},{"name":"disableRipple","value":false,"type":"switch"},{"name":"readOnly","value":false,"type":"switch"},{"name":"buttonHoverColor","value":"","type":"Color"},{"name":"buttonBgHoverColor","value":"","type":"Color"},{"name":"targetMode","value":""},{"name":"targetUrl","value":""},{"name":"subpath","value":""},{"name":"tooltipMsg","value":""},{"name":"showTooltip","value":""},{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"},{"name":"p","value":"1"}]}
+
+TextBox:{"id":"id_X","name":"TextBox","type":"Vivid_TextBox","controlType":"Vivid_TextBox","controlId":"Vivid_TextBox","property":[{"name":"placeholder","value":"Enter"},{"name":"value","value":""},{"name":"fullWidth","value":true},{"name":"isfield","value":true},{"name":"required","value":false},{"name":"readOnly","value":false},{"name":"backgroundColor","value":"#FFF","type":"Color"},{"name":"color","value":"#333"},{"name":"borderRadius","value":"4px"},{"name":"borderWidth","value":"1px"},{"name":"borderColor","value":"#e0e0e0"},{"name":"borderStyle","value":"solid"},{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}]}
+
+Divider:{"id":"id_X","name":"Divider","type":"Vivid_Divider","controlType":"Vivid_Divider","controlId":"Vivid_Divider","property":[{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}]}
+
+Icon:{"id":"id_X","name":"Icon","type":"Vivid_Icon","controlType":"Vivid_Icon","controlId":"Vivid_Icon","property":[{"name":"icon","value":"HomeRounded"},{"name":"color","value":"#003874"},{"name":"fontSize","value":"24px"},{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}]}
+
+Image:{"id":"id_X","name":"Image","type":"Vivid_Image","controlType":"Vivid_Image","controlId":"Vivid_Image","property":[{"name":"Source","value":""},{"name":"Base64","value":""},{"name":"alt","value":""},{"name":"icon","value":"","type":"muiIcon"},{"name":"width","value":"100%"},{"name":"height","value":"auto"},{"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}]}
+
+## ⚠ BUTTON ACCURACY RULES (from Figma — follow exactly)
+- Extract EXACT button width from Figma: if button spans full column → fullWidth:true, if fixed px width → set width property
+- Extract EXACT backgroundColor from Figma colors — never use default #003874 if Figma has a different color
+- Extract EXACT borderRadius from Figma — pill button=20px+, square=0px, slightly rounded=4-8px
+- Extract EXACT font size from Figma for button text
+- If button has a specific px width in Figma (e.g. 160px) → add {"name":"width","value":"160px"} to properties
+- If two buttons side by side → NEITHER is fullWidth, each has specific width
+- If one button alone spanning full width → fullWidth:true
+- ⚠ controlType for Button MUST be "vividbutton" (lowercase) — never "Vivid_Button"
 
 ## LAYOUT RULES
 1col: parent flexColumn=true wrap=false
@@ -42,9 +62,8 @@ Image:{"id":"id_X","name":"Image","type":"Vivid_Image","controlType":"Vivid_Imag
 Vivid_Image → use for: logos, brand marks, illustrations, drawings, photos, avatars, banners, any visual graphic
 Vivid_Icon  → use ONLY for: standard material UI icons (menu, search, close, arrow, home etc.)
 ⚠ NEVER use Vivid_Icon for logos or illustrations — always use Vivid_Image
-⚠ If you see a company logo (BlaBlaCar, Google, Facebook etc.) → Vivid_Image with Source:""
+⚠ If you see a company logo → Vivid_Image with Source:""
 ⚠ If you see an illustration or drawing → Vivid_Image with Source:""
-⚠ Multiple images on screen → generate ONE Vivid_Image widget per image/logo
 
 ## FONT SIZE RULES
 Detect actual visual size and map to:
@@ -59,62 +78,52 @@ Detect actual visual size and map to:
 Filled:    backgroundColor=COLOR color="#fff" borderWidth="" borderColor="" borderStyle=""
 Outlined:  backgroundColor="transparent" color=COLOR borderWidth="2px" borderColor=COLOR borderStyle="solid"
 Pill:      borderRadius="20px"
-Circle:    borderRadius="50%" borderWidth="1px" borderStyle="solid" fullWidth=false
+Circle:    borderRadius="50%" borderWidth="1px" borderStyle="solid" fullWidth:false
 TextOnly:  backgroundColor="transparent" borderWidth="" color=COLOR
 
-## BUTTON INTENT (from design system)
-Primary Button   → Filled style, brand color bg, bold label — ONE per section max
+## BUTTON INTENT
+Primary Button   → Filled style, brand color bg — ONE per section max
 Secondary Button → Outlined style, transparent bg with brand color border
 Tertiary Button  → TextOnly style, no border, primary color text only
-⚠ Only ONE primary (filled) button per section — all others secondary or tertiary
-⚠ If 2 or fewer options → use Buttons, never a dropdown
 
 ## DESIGN SYSTEM RULES
 - Base font size: 14px for body text
-- Bottom toolbar: max 4 items only
-- Never use floating action button with bottom toolbar
-- Chips/tags: always 3 or more, never fewer
-- Prefer flexbox layouts — never use absolute positioning unless unavoidable
+- Prefer flexbox layouts — never use absolute positioning
 - Layouts must be responsive: use col/lg grid values correctly
 
 ## PROPERTY RULES
-- visibility → always string "true true true" (never boolean/null)
+- visibility → ALWAYS {"name":"visibility","value":"true true true","icons":"icon-monitor icon-tablet icon-mobile"}
 - textstyle → always {"Bold":false,"Italic":false,"Underlined":false,"Strikeout":false}
 - Bold text → textstyle.Bold=true
+- isMasking → always boolean false (never empty string "")
+- hideShadow, disableRipple, readOnly → always boolean false (never "")
+- isfield → always boolean false (never "")
+- fullWidth, fullHeight → always boolean false (never "")
 - Image → property name "Source" capital S (never src/source)
-- Colors → use EXACT hex from input, never substitute
-- Panel background → set on Container backgroundColor, pageBackground → Section backgroundColor
-- Subtitle/subheading text color → extract EXACT color from image (e.g. red subtitle = #ff6b6b NOT #333)
-- Every text element gets its OWN color — never default all text to #333
-- TextBox border → use exact border color from image (light gray=#e0e0e0, dark=#333 etc.)
-- TextBox borderRadius → match visual rounding (slightly rounded=4px, pill=20px)
+- Colors → use EXACT hex from Figma/input, never substitute
+- Panel background → set on Container backgroundColor
+- Every text element gets its OWN color from Figma
 
 ## WAVE/DECORATIVE BACKGROUND RULES
 - Decorative wave, blob, curved shape → set as Section or Container backgroundColor
-- If wave covers bottom half → add a Container with that backgroundColor at bottom
-- If page has gradient background → set Section backgroundColor to dominant gradient color
-- Never ignore background colors — always capture them on the nearest Container/Section
+- Never ignore background colors — always capture them
 
-## SHAPE APPROXIMATION (no shape widget exists — map to containers)
+## SHAPE APPROXIMATION
 | Shape seen | How to approximate |
 |---|---|
 | Wave/curved bottom | Container backgroundColor + borderRadius on top corners |
 | Full background blob | Section backgroundColor |
-| Diagonal color split | Two containers with different backgroundColors |
-| Circle/oval accent | Container borderRadius:50% + backgroundColor |
 | Rounded card/panel | Container borderRadius:8px + backgroundColor |
-| Bottom color strip | Container backgroundColor fullWidth col:12 |
 | Gradient background | Section backgroundColor = dominant gradient color |
-⚠ NEVER ignore a shape — always map it to the closest container background
-⚠ Multiple shapes = multiple containers each with their own backgroundColor
 
 ## CHECKLIST (verify before output)
+✓ EVERY visibility has icons:"icon-monitor icon-tablet icon-mobile"
+✓ Button controlType is "vividbutton" (lowercase) — NEVER "Vivid_Button"
 ✓ 2-col parent: flexColumn=false wrap=true | children: col=6 lg="6"
-✓ visibility="true true true" on every node
 ✓ textstyle full object on every Label
+✓ isMasking/hideShadow/disableRipple/readOnly/isfield/fullWidth = false (boolean, not "")
 ✓ No "control" key on any widget
 ✓ All IDs unique
-✓ Outlined btn: borderWidth+borderColor+borderStyle set
+✓ Button width/color/borderRadius matches Figma EXACTLY
 ✓ Image uses "Source" not "source"
 ✓ Logos and illustrations → Vivid_Image NOT Vivid_Icon
-✓ Each visible image/logo has its own Vivid_Image widget
