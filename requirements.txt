@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+httpx
+oracledb
+python-multipart
+pillow
+colorthief
+python-dotenv

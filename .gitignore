@@ -1,0 +1,38 @@
+# ── Vivid Layout Generator — .gitignore ────────────────────────────
+
+# Environment & secrets — NEVER push!
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Generated outputs
+layout_*.json
+hermes_rules.json
+*.log
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Node (if any)
+node_modules/
+
+# Uploads/temp
+uploads/
+temp/
